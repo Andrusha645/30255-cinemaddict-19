@@ -1,7 +1,7 @@
 # Проект «Киноман»
 
 * Студент: [Андрей Трухов](https://up.htmlacademy.ru/ecmascript/19/user/30255).
-* Наставник: `Неизвестно`.
+* Наставник: [Олег Глущенко](https://htmlacademy.ru/profile/id305355).
 
 ---
 
