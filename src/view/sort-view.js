@@ -1,29 +1,29 @@
-import { createElement } from "../render";
+import { createElement } from '../render';
 
 function createSortTemplate() {
-    return ( `<ul class="sort">
+  return ( `<ul class="sort">
     <li><a href="#" class="sort__button sort__button--active">Sort by default</a></li>
     <li><a href="#" class="sort__button">Sort by date</a></li>
     <li><a href="#" class="sort__button">Sort by rating</a></li>
   </ul>`
   );
 
+}
+
+export default class SortView {
+  getTemplate() {
+    return createSortTemplate();
   }
-  
-  export default class SortView {
-    getTemplate() {
-      return createSortTemplate();
+
+  getElement() {
+    if (!this.element) {
+      this.element = createElement(this.getTemplate());
     }
-  
-    getElement() {
-      if (!this.element) {
-        this.element = createElement(this.getTemplate());
-      }
-  
-      return this.element;
-    }
-  
-    removeElement() {
-      this.element = null;
-    }
+
+    return this.element;
   }
+
+  removeElement() {
+    this.element = null;
+  }
+}

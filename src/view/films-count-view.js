@@ -1,13 +1,12 @@
-import { createElement } from '../render';
+import {createElement} from '../render.js';
 
-function createBoardTemplate() {
-  return '<section class="films"></section>';
-
+function createFilmsCountTemplate() {
+  return ' <p>130 291 movies inside</p>';
 }
 
-export default class BoardView {
+export default class FilmsCountView {
   getTemplate() {
-    return createBoardTemplate();
+    return createFilmsCountTemplate();
   }
 
   getElement() {
