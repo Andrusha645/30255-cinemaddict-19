@@ -1,7 +1,7 @@
 import BoardView from '../view/board-view.js';
 import FilmCardListView from '../view/film-card-list-view.js';
 import FilmCardView from '../view/film-card-view.js';
-//import FilmCardPopupView from '../view/film-card-popup.js';
+import FilmCardPopupView from '../view/film-card-popup.js';
 import TopRatedView from '../view/top-rated-view.js';
 import MostCommentedView from '../view/most-commented-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
@@ -29,6 +29,6 @@ export default class BoardPresenter {
     render(new ShowMoreButtonView(), this.boardComponent.getElement());
     render(new TopRatedView(), this.boardComponent.getElement());
     render(new MostCommentedView(), this.boardComponent.getElement());
-    //render(new FilmCardPopupView(), this.FilmCardListComponent.getElement());
+    render(new FilmCardPopupView({film: this.boardFilms[0]}), this.FilmCardListComponent.getElement());
   }
 }

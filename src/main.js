@@ -4,7 +4,7 @@ import SortView from './view/sort-view.js';
 import {render} from './render.js';
 import BoardPresenter from './presenter/board-presenter.js';
 import FilmsCountView from './view/films-count-view.js';
-import {FilmsModel} from './model/films-model.js';
+import FilmsModel from './model/films-model.js';
 
 const siteHeaderElement = document.querySelector('.header');
 const siteMainElement = document.querySelector('.main');

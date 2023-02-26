@@ -1,6 +1,6 @@
-import {getRandomFilm} from '../mock/task.js';
+import {getRandomFilm} from '../mock/film.js';
 
-const FILM_COUNT = 2;
+const FILM_COUNT = 5;
 
 export default class FilmsModel {
   films = Array.from({length: FILM_COUNT}, getRandomFilm);

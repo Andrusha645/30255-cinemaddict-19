@@ -4,15 +4,13 @@ import { EMOTIONS } from '../const.js';
 const mockFilms = [
   {
     id: 0,
-    comments: [
-
-    ],
+    comments: [1,2,4],
     filmInfo: {
-      title: 'A Little Pony Without The Carpet',
+      title: 'Santa Claus Conquers the Martians',
       alternativeTitle: 'Laziness Who Sold Themselves',
-      totalRrating: 5.3,
-      poster: 'images/posters/blue-blazes.jpg',
-      ageRrating: 0,
+      totalRating: 5.3,
+      poster: 'blue-blazes',
+      ageRating: 0,
       director: 'Tom Ford',
       writers: [
         'Takeshi Kitano'
@@ -39,14 +37,12 @@ const mockFilms = [
   },
   {
     id: 1,
-    comments: [
-
-    ],
+    comments: [3,2],
     filmInfo: {
       title: 'The Great Flamarion',
       alternativeTitle: 'The Great Flamarion',
       totalRating: 8.9,
-      poster: 'images/posters/blue-blazes.jpg',
+      poster: 'blue-blazes',
       ageRating: 0,
       director: 'Anthony Mann',
       writers: [
@@ -74,12 +70,12 @@ const mockFilms = [
   },
   {
     id: 2,
-    comments: [2],
+    comments: [2,4,1],
     filmInfo: {
       title: 'Sagebrush Trail',
       alternativeTitle: 'Sagebrush Trail',
       totalRating: 3.2,
-      poster: 'images/posters/blue-blazes.jpg',
+      poster: 'blue-blazes',
       ageRating: 0,
       director: 'Anthony Mann',
       writers: [
@@ -96,7 +92,7 @@ const mockFilms = [
       genre: [
         'Western', 'Mystery'
       ],
-      description: 'Sentenced for a murder he did not commit, John Brant escapes from prison determined to find the real killer. By chance Brants narrow escap…'
+      description: 'Sentenced for a murder he did not commit, John Brant escapes from prison determined to find the real killer. By chance Brants narrow escape.'
     },
     userDetails: {
       isWatchlist: true,
@@ -107,7 +103,7 @@ const mockFilms = [
   }
 ];
 
-const comments = [
+const commentsItems = [
   {
     id: 1,
     author: 'Ilya OReilly',
@@ -130,7 +126,7 @@ const comments = [
     emotion: getRandomArrayElement(EMOTIONS),
   },
   {
-    id: 3,
+    id: 4,
     author: 'John Doe',
     comment: 'Almost two hours? Seriously?',
     date: '2019-07-19T16:12:32.554Z',
@@ -141,4 +137,4 @@ function getRandomFilm() {
   return getRandomArrayElement(mockFilms);
 }
 
-export {getRandomFilm, comments};
+export {getRandomFilm, commentsItems};
