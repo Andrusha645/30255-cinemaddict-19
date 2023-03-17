@@ -1,14 +1,15 @@
-import {createElement} from '../render.js';
+import { createElement } from '../render';
 
-function createFilmCardListTemplate() {
-  return '<div class="films-list__container"></div>';
+function createFeedTemplate() {
+  return '<section class="films"></section>';
+
 }
 
-export default class FilmCardListView {
+export default class FeedView {
   #element = null;
 
   get template() {
-    return createFilmCardListTemplate();
+    return createFeedTemplate();
   }
 
   get element() {
