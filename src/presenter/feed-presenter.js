@@ -7,18 +7,17 @@ import MostCommentedView from '../view/most-commented-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import {render} from '../render.js';
 
-const FILM_COUNT_PER_STEP = 4;
 
 export default class BoardPresenter {
   #feedContainer = null;
   #filmsModel = null;
-  #showMoreButtonComponent = null;
+
 
   #feedComponent = new FeedView();
   #filmCardListComponent = new FilmCardListView();
 
   #feedFilms = [];
-  #renderedFilmCount = FILM_COUNT_PER_STEP;
+
 
   constructor({feedContainer, filmsModel}) {
     this.#feedContainer = feedContainer;
@@ -34,31 +33,14 @@ export default class BoardPresenter {
     for (let i = 0; i < this.#feedFilms.length; i++) {
       this.#renderFilm(this.#feedFilms[i]);
     }
-    if (this.#feedFilms.length > FILM_COUNT_PER_STEP) {
-      this.#showMoreButtonComponent = new ShowMoreButtonView();
-      render(this.#showMoreButtonComponent, this.#feedComponent.element);
 
-      this.#showMoreButtonComponent.element.addEventListener('click', this.#showMoreButtonClickHandler);
-    }
+    render(new ShowMoreButtonView(), this.#feedComponent.element);
 
     render(new TopRatedView(), this.#feedComponent.element);
     render(new MostCommentedView(), this.#feedComponent.element);
 
   }
 
-  #showMoreButtonClickHandler = (evt) => {
-    evt.preventDefault();
-    this.#feedFilms
-      .slice(this.#renderedFilmCount, this.#renderedFilmCount + FILM_COUNT_PER_STEP)
-      .forEach((film) => this.#renderFilm(film));
-
-    this.#renderedFilmCount += FILM_COUNT_PER_STEP;
-
-    if (this.#renderedFilmCount >= this.#feedFilms.length) {
-      this.#showMoreButtonComponent.element.remove();
-      this.#showMoreButtonComponent.removeElement();
-    }
-  };
 
   #renderFilm(film) {
     const filmComponent = new FilmCardView({film});
