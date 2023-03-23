@@ -6,11 +6,14 @@ import FeedPresenter from './presenter/feed-presenter.js';
 import FilmsCountView from './view/films-count-view.js';
 import FilmsModel from './model/films-model.js';
 
-const siteHeaderElement = document.querySelector('.header');
-const siteMainElement = document.querySelector('.main');
+const siteHeaderElement = document.querySelector('header');
+const siteMainElement = document.querySelector('main');
+const siteBodyElement = document.querySelector('body');
+
 const filmsModel = new FilmsModel();
 const feedPresenter = new FeedPresenter({
   feedContainer: siteMainElement,
+  bodyContainer: siteBodyElement,
   filmsModel,
 
 });
