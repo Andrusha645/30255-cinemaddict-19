@@ -1,4 +1,4 @@
-import { createElement } from '../render';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createFeedTemplate() {
   return (`<section class="films-list">
@@ -7,22 +7,9 @@ function createFeedTemplate() {
 
 }
 
-export default class FeedView {
-  #element = null;
+export default class FeedView extends AbstractView {
 
   get template() {
     return createFeedTemplate();
-  }
-
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
   }
 }

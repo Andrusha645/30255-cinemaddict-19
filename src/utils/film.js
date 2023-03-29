@@ -4,10 +4,6 @@ const DATE_FORMAT = 'YYYY';
 const RELEASE_DATE_FORMAT = 'DD MMMM YYYY';
 const DATE_COMMENT_FORMAT = 'YYYY/MM/D H:mm';
 
-function getRandomArrayElement(items) {
-  return items[Math.floor(Math.random() * items.length)];
-}
-
 function formatCommentDate(dateComment){
   return dateComment ? dayjs(dateComment).format(DATE_COMMENT_FORMAT) : '';
 }
@@ -37,8 +33,7 @@ function durationFormat(duration){
 
 const getComments = (commentItems, commentIds) => commentItems.filter((item) => commentIds.includes(item.id));
 
-export {getRandomArrayElement,
-  humanizeFilmCardDate,
+export {humanizeFilmCardDate,
   transformFilmTitle,
   durationFormat,
   formatCommentDate,

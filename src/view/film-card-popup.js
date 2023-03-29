@@ -1,5 +1,5 @@
-import {createElement} from '../render.js';
-import { humanizeFilmReleaseDate, transformFilmTitle, durationFormat, getComments, formatCommentDate } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import { humanizeFilmReleaseDate, transformFilmTitle, durationFormat, getComments, formatCommentDate } from '../utils/film.js';
 import { EMOTIONS } from '../const.js';
 import { commentsItems } from '../mock/film.js';
 
@@ -151,27 +151,25 @@ function createFilmCardPopupTemplate(film) {
   );
 }
 
-export default class FilmCardPopupView {
-  #element = null;
+export default class FilmCardPopupView extends AbstractView{
   #film = null;
+  #handleClosePopupClick = null;
 
-  constructor ({film}) {
+  constructor({film, onClosePopupClick}) {
+    super();
     this.#film = film;
+    this.#handleClosePopupClick = onClosePopupClick;
+
+    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#closePopupClickHandler);
   }
+
 
   get template() {
     return createFilmCardPopupTemplate(this.#film);
   }
 
-  get element() {
-    if (!this.#element) {
-      this.#element = createElement(this.template);
-    }
-
-    return this.#element;
-  }
-
-  removeElement() {
-    this.#element = null;
-  }
+  #closePopupClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleClosePopupClick();
+  };
 }
