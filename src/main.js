@@ -5,6 +5,7 @@ import { render } from './framework/render.js';
 import FeedPresenter from './presenter/feed-presenter.js';
 import FilmsCountView from './view/films-count-view.js';
 import FilmsModel from './model/films-model.js';
+import { generateFilter } from './mock/filter.js';
 
 const siteHeaderElement = document.querySelector('header');
 const siteMainElement = document.querySelector('main');
@@ -18,9 +19,11 @@ const feedPresenter = new FeedPresenter({
 
 });
 const FilmsCountContainer = document.querySelector('.footer__statistics');
+const filters = generateFilter(filmsModel.films);
+
 
 render(new UserProfileView(), siteHeaderElement);
-render(new FilterView(), siteMainElement);
+render(new FilterView({filters}), siteMainElement);
 render(new SortView(), siteMainElement);
 
 feedPresenter.init();
