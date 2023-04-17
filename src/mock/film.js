@@ -1,3 +1,4 @@
+import {nanoid} from 'nanoid';
 import { getRandomArrayElement } from '../utils/common.js';
 import { EMOTIONS } from '../const.js';
 
@@ -134,7 +135,10 @@ const commentsItems = [
   }
 ];
 function getRandomFilm() {
-  return getRandomArrayElement(mockFilms);
+  return {
+    id: nanoid(),
+    ...getRandomArrayElement(mockFilms)
+  };
 }
 
 export {getRandomFilm, commentsItems};

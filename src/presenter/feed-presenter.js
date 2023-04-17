@@ -5,8 +5,9 @@ import TopRatedView from '../view/top-rated-view.js';
 import MostCommentedView from '../view/most-commented-view.js';
 import ShowMoreButtonView from '../view/show-more-button-view.js';
 import NoFilmsView from '../view/no-films-view.js';
-import { render } from '../framework/render.js';
+import { render, remove } from '../framework/render.js';
 import FilmPresenter from './film-presenter.js';
+import { updateItem } from '../utils/common.js';
 
 const FILM_COUNT_PER_STEP = 5;
 
@@ -25,6 +26,8 @@ export default class FeedPresenter {
 
   #feedFilms = [];
   #renderedFilmCount = FILM_COUNT_PER_STEP;
+
+  #filmPresenters = new Map ();
 
 
   constructor({feedContainer, bodyContainer, filmsModel}) {
@@ -54,18 +57,33 @@ export default class FeedPresenter {
     }
   };
 
+  #handleFilmChange = (updatedFilm) => {
+    this.#feedFilms = updateItem(this.#feedFilms, updatedFilm);
+    this.#filmPresenters.get(updatedFilm.id).init(updatedFilm);
+  };
+
   #renderFilm(film) {
     const filmPresenter = new FilmPresenter({
       filmCardListContainer: this.#filmCardListComponent.element,
-      bodyContainer: this.#bodyContainer
+      bodyContainer: this.#bodyContainer,
+      feedContainer: this.#feedContainer,
+      onDataChange: this.#handleFilmChange
     });
     filmPresenter.init(film);
+    this.#filmPresenters.set(film.id,filmPresenter);
   }
 
   #renderFilms(from, to) {
     this.#feedFilms
       .slice(from, to)
       .forEach((film) => this.#renderFilm(film));
+  }
+
+  #clearTaskList() {
+    this.#filmPresenters.forEach((presenter) => presenter.destroy());
+    this.#filmPresenters.clear();
+    this.#renderedFilmCount = FILM_COUNT_PER_STEP;
+    remove(this.#showMoreButtonComponent);
   }
 
   #renderNoFilms() {
