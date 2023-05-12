@@ -1,24 +1,28 @@
 import FilmCardView from '../view/film-card-view.js';
 import FilmCardPopupView from '../view/film-card-popup.js';
 import { render, remove, replace } from '../framework/render.js';
+import { Mode } from '../const.js';
 
 export default class FilmPresenter {
   #filmCardListContainer = null;
   #bodyContainer = null;
   #feedContainer = null;
   #handleDataChange = null;
+  #handleModeChange = null;
 
 
   #filmComponent = null;
   #popupComponent = null;
 
   #film = null;
+  #mode = Mode.DEFAULT;
 
-  constructor ({filmCardListContainer, bodyContainer, feedContainer, onDataChange }) {
+  constructor ({filmCardListContainer, bodyContainer, feedContainer, onDataChange, onModeChange }) {
     this.#filmCardListContainer = filmCardListContainer;
     this.#bodyContainer = bodyContainer;
     this.#feedContainer = feedContainer;
     this.#handleDataChange = onDataChange;
+    this.#handleModeChange = onModeChange;
   }
 
   init (film) {
@@ -47,11 +51,11 @@ export default class FilmPresenter {
 
     // Проверка на наличие в DOM необходима,
     // чтобы не пытаться заменить то, что не было отрисовано
-    if (this.#filmCardListContainer.contains(prevFilmComponent.element)) {
+    if (this.#mode === Mode.DEFAULT) {
       replace(this.#filmComponent, prevFilmComponent);
     }
 
-    if (this.#filmCardListContainer.contains(prevPopupComponent.element)) {
+    if (this.#mode === Mode.POPUP) {
       replace(this.#popupComponent, prevPopupComponent);
     }
 
@@ -64,15 +68,23 @@ export default class FilmPresenter {
     remove(this.#popupComponent);
   }
 
+  resetView() {
+    if (this.#mode !== Mode.DEFAULT) {
+      this.#closePoup();
+    }
+  }
 
-  #showPopup () {
+  #showPopup() {
     this.#bodyContainer.classList.add('hide-overflow');
     render(this.#popupComponent, this.#feedContainer);
+    this.#handleModeChange();
+    this.#mode = Mode.POPUP;
   }
 
   #closePoup() {
     this.#bodyContainer.classList.remove('hide-overflow');
     remove(this.#popupComponent);
+    this.#mode = Mode.DEFAULT;
   }
 
   #escKeyDownHandler = (evt) => {

@@ -7,4 +7,9 @@ const FilterType = {
   FAVORITES: 'Favorites',
 };
 
-export {EMOTIONS, FilterType};
+const Mode = {
+  DEFAULT: 'DEFAULT',
+  POPUP: 'POPUP',
+};
+
+export {EMOTIONS, FilterType, Mode};

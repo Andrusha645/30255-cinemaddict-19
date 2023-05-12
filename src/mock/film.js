@@ -4,7 +4,6 @@ import { EMOTIONS } from '../const.js';
 
 const mockFilms = [
   {
-    id: 0,
     comments: [1,2,4],
     filmInfo: {
       title: 'Santa Claus Conquers the Martians',
@@ -37,7 +36,6 @@ const mockFilms = [
     }
   },
   {
-    id: 1,
     comments: [3,2],
     filmInfo: {
       title: 'The Great Flamarion',
@@ -70,7 +68,6 @@ const mockFilms = [
     }
   },
   {
-    id: 2,
     comments: [2,4,1],
     filmInfo: {
       title: 'Sagebrush Trail',

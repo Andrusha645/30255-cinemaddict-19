@@ -30,7 +30,7 @@ export default class FeedPresenter {
   #filmPresenters = new Map ();
 
 
-  constructor({feedContainer, bodyContainer, filmsModel}) {
+  constructor({feedContainer, bodyContainer, filmsModel,}) {
     this.#feedContainer = feedContainer;
     this.#bodyContainer = bodyContainer;
     this.#filmsModel = filmsModel;
@@ -43,6 +43,10 @@ export default class FeedPresenter {
     this.#renderFeed();
 
   }
+
+  #handleModeChange = () => {
+    this.#filmPresenters.forEach((presenter) => presenter.resetView());
+  };
 
   #showMoreButtonClickHandler = () => {
     this.#feedFilms
@@ -57,17 +61,14 @@ export default class FeedPresenter {
     }
   };
 
-  #handleFilmChange = (updatedFilm) => {
-    this.#feedFilms = updateItem(this.#feedFilms, updatedFilm);
-    this.#filmPresenters.get(updatedFilm.id).init(updatedFilm);
-  };
 
   #renderFilm(film) {
     const filmPresenter = new FilmPresenter({
       filmCardListContainer: this.#filmCardListComponent.element,
       bodyContainer: this.#bodyContainer,
       feedContainer: this.#feedContainer,
-      onDataChange: this.#handleFilmChange
+      onDataChange: this.#handleFilmChange,
+      onModeChange: this.#handleModeChange
     });
     filmPresenter.init(film);
     this.#filmPresenters.set(film.id,filmPresenter);
@@ -79,7 +80,12 @@ export default class FeedPresenter {
       .forEach((film) => this.#renderFilm(film));
   }
 
-  #clearTaskList() {
+  #handleFilmChange = (updatedFilm) => {
+    this.#feedFilms = updateItem(this.#feedFilms, updatedFilm);
+    this.#filmPresenters.get(updatedFilm.id).init(updatedFilm);
+  };
+
+  #clearFilmList() {
     this.#filmPresenters.forEach((presenter) => presenter.destroy());
     this.#filmPresenters.clear();
     this.#renderedFilmCount = FILM_COUNT_PER_STEP;
