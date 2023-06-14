@@ -41,7 +41,10 @@ export default class FilmPresenter {
 
     this.#popupComponent = new FilmCardPopupView({
       film: this.#film,
-      onClosePopupClick: this.#handleClosePopupClick
+      onClosePopupClick: this.#handleClosePopupClick,
+      onAddWatchlistClick: this.#handleAddWatchlistClick,
+      onAlreadyWatchedClick: this.#handleAlreadyWatchedClick,
+      onAddFavoritesClick: this.#handleAddFavoritesClick
     });
 
     if (prevFilmComponent === null || prevPopupComponent === null) {
@@ -56,6 +59,7 @@ export default class FilmPresenter {
     }
 
     if (this.#mode === Mode.POPUP) {
+      replace(this.#filmComponent, prevFilmComponent);
       replace(this.#popupComponent, prevPopupComponent);
     }
 
@@ -76,19 +80,20 @@ export default class FilmPresenter {
 
   #showPopup() {
     this.#bodyContainer.classList.add('hide-overflow');
-    render(this.#popupComponent, this.#feedContainer);
+    this.#bodyContainer.append(this.#popupComponent.element);
     this.#handleModeChange();
     this.#mode = Mode.POPUP;
   }
 
   #closePoup() {
+    this.#bodyContainer.removeChild(this.#popupComponent.element);
     this.#bodyContainer.classList.remove('hide-overflow');
-    remove(this.#popupComponent);
     this.#mode = Mode.DEFAULT;
   }
 
   #escKeyDownHandler = (evt) => {
     if (evt.key === 'Escape' || evt.key === 'Esc') {
+      this.#handleDataChange(this.#film);
       this.#closePoup();
       document.removeEventListener('keydown', this.#escKeyDownHandler);
     }

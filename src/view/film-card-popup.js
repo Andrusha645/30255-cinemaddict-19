@@ -154,11 +154,21 @@ function createFilmCardPopupTemplate(film) {
 export default class FilmCardPopupView extends AbstractView{
   #film = null;
   #handleClosePopupClick = null;
+  #handleAddWatchlistClick = null;
+  #handleAlreadyWatchedClick = null;
+  #handleAddFavoritesClick = null;
 
-  constructor({film, onClosePopupClick}) {
+  constructor({film, onClosePopupClick, onAddWatchlistClick, onAlreadyWatchedClick, onAddFavoritesClick}) {
     super();
     this.#film = film;
     this.#handleClosePopupClick = onClosePopupClick;
+    this.#handleAddWatchlistClick = onAddWatchlistClick;
+    this.#handleAlreadyWatchedClick = onAlreadyWatchedClick;
+    this.#handleAddFavoritesClick = onAddFavoritesClick;
+
+    this.element.querySelector('#watchlist').addEventListener('click', this.#addWatchlistClickHandler);
+    this.element.querySelector('#watched').addEventListener('click', this.#alreadyWatchedClickHandler);
+    this.element.querySelector('#favorite').addEventListener('click', this.#addFavoritesClickHandler);
 
     this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#closePopupClickHandler);
   }
@@ -171,5 +181,20 @@ export default class FilmCardPopupView extends AbstractView{
   #closePopupClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleClosePopupClick(this.#film);
+  };
+
+  #addWatchlistClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleAddWatchlistClick();
+  };
+
+  #alreadyWatchedClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleAlreadyWatchedClick();
+  };
+
+  #addFavoritesClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleAddFavoritesClick();
   };
 }
