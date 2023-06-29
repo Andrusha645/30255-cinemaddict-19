@@ -1,6 +1,6 @@
 import UserProfileView from './view/user-profile-view.js';
 import FilterView from './view/filter-view.js';
-import SortView from './view/sort-view.js';
+//import SortView from './view/sort-view.js';
 import { render } from './framework/render.js';
 import FeedPresenter from './presenter/feed-presenter.js';
 import FilmsCountView from './view/films-count-view.js';
@@ -24,7 +24,7 @@ const filters = generateFilter(filmsModel.films);
 
 render(new UserProfileView(), siteHeaderElement);
 render(new FilterView({filters}), siteMainElement);
-render(new SortView(), siteMainElement);
+//render(new SortView(), siteMainElement);
 
 feedPresenter.init();
 

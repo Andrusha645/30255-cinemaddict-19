@@ -31,6 +31,54 @@ function durationFormat(duration){
   }
 }
 
+// Функция помещает задачи без даты в конце списка,
+// возвращая нужный вес для колбэка sort
+function getWeightForNullRating(ratingA, ratingB) {
+  if (ratingA === null && ratingB === null) {
+    return 0;
+  }
+
+  if (ratingA === null) {
+    return 1;
+  }
+
+  if (ratingB === null) {
+    return -1;
+  }
+
+  return null;
+}
+
+function sortRatingDown(ratingA, ratingB) {
+  const weight = getWeightForNullRating(ratingB.filmInfo.totalRating, ratingA.filmInfo.totalRating);
+
+  return weight ?? dayjs(ratingB.filmInfo.totalRating).diff(dayjs(ratingA.filmInfo.totalRating));
+}
+// Функция помещает задачи без даты в конце списка,
+// возвращая нужный вес для колбэка sort
+function getWeightForNullDate(dateA, dateB) {
+  if (dateA === null && dateB === null) {
+    return 0;
+  }
+
+  if (dateA === null) {
+    return 1;
+  }
+
+  if (dateB === null) {
+    return -1;
+  }
+
+  return null;
+}
+
+function sortDateDown(dateA, dateB) {
+  const weight = getWeightForNullDate(dateB.filmInfo.release.date, dateA.filmInfo.release.date);
+
+  return weight ?? dayjs(dateB.filmInfo.release.date).diff(dayjs(dateA.filmInfo.release.date));
+}
+
+
 const getComments = (commentItems, commentIds) => commentItems.filter((item) => commentIds.includes(item.id));
 
 export {humanizeFilmCardDate,
@@ -38,4 +86,6 @@ export {humanizeFilmCardDate,
   durationFormat,
   formatCommentDate,
   humanizeFilmReleaseDate,
+  sortRatingDown,
+  sortDateDown,
   getComments};
