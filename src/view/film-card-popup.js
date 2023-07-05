@@ -1,4 +1,4 @@
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import { humanizeFilmReleaseDate, transformFilmTitle, durationFormat, getComments, formatCommentDate } from '../utils/film.js';
 import { EMOTIONS } from '../const.js';
 import { commentsItems } from '../mock/film.js';
@@ -32,9 +32,11 @@ const createCommentsListTemplate = (commentIds) => {
   );
 };
 
-const createNewCommentTemplate = () => (`
+const createNewCommentTemplate = (currentEmotion) => (`
   <form class="film-details__new-comment" action="" method="get">
-    <div class="film-details__add-emoji-label"></div>
+       <div class="film-details__add-emoji-label">
+      ${currentEmotion ? `<img src="./images/emoji/${currentEmotion}.png" width="55" height="55" alt="emoji" data-emotion=${currentEmotion}>` : ''}
+      </div>
     <label class="film-details__comment-label">
       <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
     </label>
@@ -48,7 +50,7 @@ const createNewCommentTemplate = () => (`
 `);
 
 function createFilmCardPopupTemplate(film) {
-  const {filmInfo:{title, totalRating, alternativeTitle, director, writers, actors, release:{date, releaseCountry}, duration, genre, description }, comments, userDetails:{isWatchlist,isAlreadyWatched,isFavorite}} = film;
+  const {filmInfo:{title, totalRating, alternativeTitle, director, writers, actors, release:{date, releaseCountry}, duration, genre, description }, comments, userDetails:{isWatchlist,isAlreadyWatched,isFavorite}, localComment} = film;
 
   const releaseDate = humanizeFilmReleaseDate(date);
   const genres = insertGenre(genre).join(' ');
@@ -65,7 +67,7 @@ function createFilmCardPopupTemplate(film) {
     ? 'film-details__control-button--active'
     : '';
   const commentsTemplate = createCommentsListTemplate(comments);
-  const newCommentTemplate = createNewCommentTemplate();
+  const newCommentTemplate = createNewCommentTemplate(localComment.emotion);
 
   return (
     `<section class="film-details">
@@ -151,8 +153,8 @@ function createFilmCardPopupTemplate(film) {
   );
 }
 
-export default class FilmCardPopupView extends AbstractView{
-  #film = null;
+export default class FilmCardPopupView extends AbstractStatefulView {
+
   #handleClosePopupClick = null;
   #handleAddWatchlistClick = null;
   #handleAlreadyWatchedClick = null;
@@ -160,7 +162,7 @@ export default class FilmCardPopupView extends AbstractView{
 
   constructor({film, onClosePopupClick, onAddWatchlistClick, onAlreadyWatchedClick, onAddFavoritesClick}) {
     super();
-    this.#film = film;
+    this._setState(FilmCardPopupView.parseFilmToState(film));
     this.#handleClosePopupClick = onClosePopupClick;
     this.#handleAddWatchlistClick = onAddWatchlistClick;
     this.#handleAlreadyWatchedClick = onAlreadyWatchedClick;
@@ -175,12 +177,12 @@ export default class FilmCardPopupView extends AbstractView{
 
 
   get template() {
-    return createFilmCardPopupTemplate(this.#film);
+    return createFilmCardPopupTemplate(this._state);
   }
 
   #closePopupClickHandler = (evt) => {
     evt.preventDefault();
-    this.#handleClosePopupClick(this.#film);
+    this.#handleClosePopupClick(FilmCardPopupView.parseStateToFilm(this._state));
   };
 
   #addWatchlistClickHandler = (evt) => {
@@ -197,4 +199,23 @@ export default class FilmCardPopupView extends AbstractView{
     evt.preventDefault();
     this.#handleAddFavoritesClick();
   };
+
+  static parseFilmToState(film) {
+    return {
+      ...film,
+      localComment: {
+        comment: null,
+        emotion: null
+      }
+    };
+  }
+
+  static parseStateToFilm(state) {
+    const film = {...state};
+    /*
+      Логика передачи комментария
+    */
+    delete film.localComment;
+    return film;
+  }
 }
