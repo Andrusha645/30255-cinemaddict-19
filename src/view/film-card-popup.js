@@ -41,9 +41,15 @@ const createNewCommentTemplate = (currentEmotion) => (`
       <textarea class="film-details__comment-input" placeholder="Select reaction below and write comment here" name="comment"></textarea>
     </label>
     <div class="film-details__emoji-list">${EMOTIONS.map((emotion) => `
-      <input class="film-details__emoji-item visually-hidden" name="comment-emoji" type="radio" id="emoji-${emotion}" value="${emotion}">
-      <label class="film-details__emoji-label" for="emoji-${emotion}">
-        <img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji">
+    <input
+    class="film-details__emoji-item visually-hidden"
+    name="comment-emoji"
+    type="radio"
+    id="emoji-${emotion}"
+    value="${emotion}"
+    ${currentEmotion === emotion ? 'checked' : ''}>
+  <label class="film-details__emoji-label" for="emoji-${emotion}">
+    <img src="./images/emoji/${emotion}.png" width="30" height="30" alt="emoji" data-emotion=${emotion}>
       </label>`).join('')}
     </div>
   </form>
@@ -172,7 +178,10 @@ export default class FilmCardPopupView extends AbstractStatefulView {
     this.element.querySelector('#watched').addEventListener('click', this.#alreadyWatchedClickHandler);
     this.element.querySelector('#favorite').addEventListener('click', this.#addFavoritesClickHandler);
 
-    this.element.querySelector('.film-details__close-btn').addEventListener('click', this.#closePopupClickHandler);
+    this.element.querySelector('.film-details__close-btn')
+      .addEventListener('click', this.#closePopupClickHandler);
+    this.element.querySelector('.film-details__emoji-list')
+      .addEventListener('click', this.#emojiClickHandler);
   }
 
 
@@ -198,6 +207,21 @@ export default class FilmCardPopupView extends AbstractStatefulView {
   #addFavoritesClickHandler = (evt) => {
     evt.preventDefault();
     this.#handleAddFavoritesClick();
+  };
+
+  #emojiClickHandler = (evt) => {
+    evt.preventDefault();
+    if (evt.target.tagName !== 'IMG') {
+      return;
+    }
+    const currYcoord = this.element.scrollTop;
+    this.updateElement({
+      localComment: {
+        emotion: evt.target.dataset.emotion,
+        comment: this._state.localComment.comment
+      }
+    });
+    this.element.scrollTo(0, currYcoord);
   };
 
   static parseFilmToState(film) {
