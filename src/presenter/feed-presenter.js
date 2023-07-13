@@ -97,6 +97,8 @@ export default class FeedPresenter {
     }
 
     this.#sortFilms(sortType);
+    remove(this.#sortComponent);
+    this.#renderSort();
     this.#clearFilmList();
     this.#renderFilmsList();
   };
@@ -104,7 +106,8 @@ export default class FeedPresenter {
 
   #renderSort() {
     this.#sortComponent = new SortView({
-      onSortTypeChange: this.#handleSortTypeChange
+      onSortTypeChange: this.#handleSortTypeChange,
+      currentSortType : this.#currentSortType
     });
 
     render(this.#sortComponent, this.#feedComponent.element, RenderPosition.AFTERBEGIN);
