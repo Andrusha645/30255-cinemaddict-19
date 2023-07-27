@@ -173,7 +173,12 @@ export default class FilmCardPopupView extends AbstractStatefulView {
     this.#handleAddWatchlistClick = onAddWatchlistClick;
     this.#handleAlreadyWatchedClick = onAlreadyWatchedClick;
     this.#handleAddFavoritesClick = onAddFavoritesClick;
+    this._restoreHandlers();
 
+
+  }
+
+  _restoreHandlers() {
     this.element.querySelector('#watchlist').addEventListener('click', this.#addWatchlistClickHandler);
     this.element.querySelector('#watched').addEventListener('click', this.#alreadyWatchedClickHandler);
     this.element.querySelector('#favorite').addEventListener('click', this.#addFavoritesClickHandler);
@@ -183,7 +188,6 @@ export default class FilmCardPopupView extends AbstractStatefulView {
     this.element.querySelector('.film-details__emoji-list')
       .addEventListener('click', this.#emojiClickHandler);
   }
-
 
   get template() {
     return createFilmCardPopupTemplate(this._state);

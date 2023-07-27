@@ -128,8 +128,8 @@ export default class FilmPresenter {
     document.addEventListener('keydown', this.#escKeyDownHandler);
   };
 
-  #handleClosePopupClick = () => {
-  // this.#handleDataChange(film);
+  #handleClosePopupClick = (film) => {
+    this.#handleDataChange(film);
     this.#closePoup();
     document.removeEventListener('keydown', this.#escKeyDownHandler);
   };
