@@ -1,5 +1,5 @@
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import { humanizeFilmReleaseDate, transformFilmTitle, durationFormat, getComments, formatCommentDate } from '../utils/film.js';
+import { humanizeFilmReleaseDate, transformFilmTitle, durationFormat, getComments, formatCommentDate, fixPopupScroll } from '../utils/film.js';
 import { EMOTIONS } from '../const.js';
 import { commentsItems } from '../mock/film.js';
 
@@ -187,11 +187,26 @@ export default class FilmCardPopupView extends AbstractStatefulView {
       .addEventListener('click', this.#closePopupClickHandler);
     this.element.querySelector('.film-details__emoji-list')
       .addEventListener('click', this.#emojiClickHandler);
+    this.element.querySelector('.film-details__comment-input')
+      .addEventListener('click', this.#commentInputHandler);
   }
 
   get template() {
     return createFilmCardPopupTemplate(this._state);
   }
+
+  #commentInputHandler = (evt) => {
+    evt.preventDefault();
+    this._setState({
+      localComment: {
+        comment: evt.target.value,
+        emotion: this._state.localComment.emotion,
+      }
+    });
+    // eslint-disable-next-line no-console
+    console.log(this._state);
+  };
+
 
   #closePopupClickHandler = (evt) => {
     evt.preventDefault();
@@ -225,7 +240,7 @@ export default class FilmCardPopupView extends AbstractStatefulView {
         comment: this._state.localComment.comment
       }
     });
-    this.element.scrollTo(0, currYcoord);
+    fixPopupScroll(this.element, currYcoord);
   };
 
   static parseFilmToState(film) {

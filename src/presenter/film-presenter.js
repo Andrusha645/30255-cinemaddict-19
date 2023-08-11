@@ -2,6 +2,7 @@ import FilmCardView from '../view/film-card-view.js';
 import FilmCardPopupView from '../view/film-card-popup.js';
 import { render, remove, replace } from '../framework/render.js';
 import { Mode } from '../const.js';
+import { fixPopupScroll } from '../utils/film.js';
 
 export default class FilmPresenter {
   #filmCardListContainer = null;
@@ -59,8 +60,10 @@ export default class FilmPresenter {
     }
 
     if (this.#mode === Mode.POPUP) {
+      const currYcoord = prevPopupComponent.element.scrollTop;
       replace(this.#filmComponent, prevFilmComponent);
       replace(this.#popupComponent, prevPopupComponent);
+      fixPopupScroll(this.#popupComponent.element, currYcoord);
     }
 
     remove(prevFilmComponent);

@@ -80,6 +80,7 @@ function sortDateDown(dateA, dateB) {
 
 
 const getComments = (commentItems, commentIds) => commentItems.filter((item) => commentIds.includes(item.id));
+const fixPopupScroll = (popup, coordY) => popup.scrollTo(0, coordY);
 
 export {humanizeFilmCardDate,
   transformFilmTitle,
@@ -88,4 +89,5 @@ export {humanizeFilmCardDate,
   humanizeFilmReleaseDate,
   sortRatingDown,
   sortDateDown,
-  getComments};
+  getComments,
+  fixPopupScroll};
